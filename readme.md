@@ -1,18 +1,18 @@
 # 🚀 **Auth API**
 
-## 📄 **Descripción**
+## 📝 **Descripción**
 
-Esta API de autenticación permite registrar y autenticar usuarios mediante correos electrónicos y contraseñas. El registro de usuarios está protegido por una API key configurable. La API utiliza tokens JWT para la autenticación y permite configurar CORS y base de datos a través de variables de entorno.
+Esta API de autenticación permite registrar y autenticar usuarios mediante correos electrónicos y contraseñas. Además, permite el inicio de sesión con **Google**. El registro de usuarios está protegido por una API key configurable. La API utiliza tokens JWT para la autenticación y permite configurar CORS y base de datos a través de variables de entorno.
 
 ---
 
-## 🏗️ **Arquitectura**
+## 🏷️ **Arquitectura**
 
 La arquitectura de esta aplicación es la siguiente:
 
 - **Framework**: FastAPI
 - **Base de datos**: SQLite (por defecto) o PostgreSQL (opcional)
-- **Autenticación**: JWT (JSON Web Tokens)
+- **Autenticación**: JWT (JSON Web Tokens) y Google OAuth
 - **Protección del registro**: API key
 - **Contenedorización**: Docker y Docker Compose
 
@@ -46,7 +46,7 @@ La arquitectura de esta aplicación es la siguiente:
 1. **Clonar el repositorio**:
 
    ```bash
-   git clone https://github.com/tu-usuario/auth-api.git
+   git clone https://github.com/joselacunzarw/auth-api.git
    cd auth-api
    ```
 
@@ -107,7 +107,7 @@ API_KEY=my-secret-api-key
      }
      ```
 
-2. **Login de Usuario**
+2. **Login de Usuario (Email y Contraseña)**
 
    - **URL**: `POST /login`
    - **Body** (JSON):
@@ -128,7 +128,32 @@ API_KEY=my-secret-api-key
      }
      ```
 
-3. **Raíz**
+3. **Login con Google**
+
+   - **URL**: `POST /google-login`
+   - **Body** (JSON):
+
+     ```json
+     {
+       "googleId": "123456789",
+       "email": "user@example.com",
+       "name": "John Doe"
+     }
+     ```
+
+   - **Respuesta**:
+
+     ```json
+     {
+       "id": 1,
+       "email": "user@example.com",
+       "applications": {
+         "app1": "admin"
+       }
+     }
+     ```
+
+4. **Raíz**
 
    - **URL**: `GET /`
    - **Descripción**: Verifica que la API está en funcionamiento.
@@ -139,6 +164,21 @@ Accede a la documentación interactiva en:
 
 - **Swagger UI**: [http://localhost:8001/docs](http://localhost:8001/docs)
 - **Redoc**: [http://localhost:8001/redoc](http://localhost:8001/redoc)
+
+---
+
+## 🌟 **Login con Google**
+
+El endpoint `/google-login` permite autenticar usuarios con su cuenta de Google.
+
+- Si el usuario ya está registrado en la base de datos con su email o Google ID, se devuelve su información.
+- Si el usuario no está registrado, se devuelve un error `404`.
+- Este mecanismo permite vincular cuentas de Google sin necesidad de contraseña local.
+
+**Implementación en el backend**:
+
+- Se utiliza el modelo `User`, que incluye `google_id` y `is_google_account`.
+- La autenticación se realiza en `auth.py` con el método `google_login`.
 
 ---
 
@@ -172,50 +212,11 @@ Puedes monitorear la API con herramientas como:
    uvicorn main:app --reload --host 0.0.0.0 --port 8001
    ```
 
-### **Estructura de Archivos**
-
-- **`main.py`**: Configura los endpoints y CORS.
-- **`auth.py`**: Maneja la autenticación, creación de tokens y validación de API keys.
-- **`database.py`**: Configura la base de datos.
-- **`models.py`**: Define los modelos de SQLAlchemy.
-- **`schemas.py`**: Define los esquemas de Pydantic.
-- **`Dockerfile`**: Configura el contenedor Docker.
-- **`docker-compose.yml`**: Orquesta los servicios con Docker Compose.
-
 ---
 
-## 🛠️ **Troubleshooting**
-
-1. **Error de Puerto Ocupado**:
-
-   - **Solución**: Asegúrate de que el puerto `8001` no esté en uso o cambia el puerto en `docker-compose.yml`:
-
-     ```yaml
-     ports:
-       - "8002:8001"
-     ```
-
-2. **Base de Datos no Persistente**:
-
-   - **Solución**: Asegúrate de que el volumen esté montado correctamente:
-
-     ```yaml
-     volumes:
-       - ./data:/app/data
-     ```
-
-3. **API Key Inválida**:
-
-   - **Solución**: Verifica que `API_KEY` en el `.env` coincida con el encabezado `X-API-Key` en la solicitud.
-
----
-
-## 📞 **Soporte**
+## 🌐 **Soporte**
 
 Para soporte técnico, contacta a:
 
 - **Email**: joselacunzarw@gmail.com
-- **GitHub Issues**: [https://github.com/tu-usuario/auth-api/issues](https://github.com/tu-usuario/auth-api/issues)
-
----
 
