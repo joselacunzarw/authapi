@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  auth-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auth-api
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./data:/app/data  # Asegurarse de que el contenedor use /app/data
+    env_file:
+      - .env
+    networks:
+      - udcito-net
+    restart: always
+
+networks:
+  udcito-net:
+    external: true

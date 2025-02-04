@@ -1,0 +1,29 @@
+# Ignorar bases de datos SQLite
+*.sqlite3
+*.db
+
+# Ignorar archivos de configuración de entornos virtuales y dependencias
+venv/
+#.env
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar logs y archivos temporales
+*.log
+*.bak
+*.swp
+.DS_Store
+
+# Ignorar caché de Docker
+**/.dockerignore
+**/docker-compose.override.yml
+
+# Ignorar archivos de VS Code y JetBrains (si usas estos editores)
+.vscode/
+.idea/
+
+# Ignorar dependencias de Python si usas pipenv o poetry
+Pipfile
+Pipfile.lock
+poetry.lock
