@@ -214,7 +214,7 @@ Puedes monitorear la API con herramientas como:
 
 Para soporte técnico, contacta a:
 
-- **Email**: soporte@example.com
+- **Email**: joselacunzarw@gmail.com
 - **GitHub Issues**: [https://github.com/tu-usuario/auth-api/issues](https://github.com/tu-usuario/auth-api/issues)
 
 ---
