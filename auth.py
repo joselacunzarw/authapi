@@ -76,3 +76,19 @@ def google_login(db: Session, google_id: str, email: str, name: str = None) -> U
     except NoResultFound:
         # Usuario no encontrado: puedes registrar automáticamente o devolver un error
         raise HTTPException(status_code=404, detail="User not found")
+        # Registro automático si no se encuentra el usuario
+        #new_user = User(
+        #    email=email,
+        #    google_id=google_id,
+        #    is_google_account=True,
+        #    applications="{'chatbot1': 'user'}"  # O una estructura predeterminada
+        #)
+        #db.add(new_user)
+        #db.commit()
+        #db.refresh(new_user)
+
+        #return UserResponse(
+        #    id=new_user.id,
+        #    email=new_user.email,
+        #    applications=eval(new_user.applications)
+        #)
